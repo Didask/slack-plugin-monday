@@ -9,12 +9,10 @@ require 'json'
 require 'dotenv'
 Dotenv.load
 
-require './share_feedback/open_modal.rb'
-require './share_feedback/save_feedback.rb'
-require './monday/prepare_monday.rb'
-
 # Routes
 class App < Sinatra::Base
+  set :views, File.join(APP_ROOT, 'app', 'views')
+
   post '/share-feedback' do
     payload = JSON.parse(params[:payload])
 

@@ -1,29 +1,13 @@
 # database.yml
+
 development:
- adapter: postgresql
- encoding: unicode
- database: development
- host: localhost
- username: postgres
- password:
- port: 5432
+  adapter: postgresql
+  database: db-development
 
 test:
- adapter: postgresql
- encoding: unicode
- database: test
- pool: 5
- host: localhost
- username: postgres
- password:
- port: 5432
+  adapter: postgresql
+  database: db-test
 
 production:
- adapter: postgresql
- encoding: unicode
- database: production
- pool: 5
- host: localhost
- username: postgres
- password:
- port: 5432
+  adapter: postgresql
+  database: db-production

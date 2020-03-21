@@ -6,3 +6,12 @@ gem 'sinatra'
 
 gem 'http'
 gem 'json'
+
+gem 'activerecord'
+gem 'sinatra-activerecord'
+gem 'pg'
+gem 'tux'
+
+group :development do
+  gem 'shotgum'
+end
