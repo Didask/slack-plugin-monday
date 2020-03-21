@@ -15,7 +15,8 @@ ActiveRecord::Schema.define(version: 2020_03_21_133824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "monday_boards", force: :cascade do |t|
+  create_table "features", force: :cascade do |t|
+    t.string "feature_name"
     t.string "board_id"
     t.jsonb "columns"
     t.jsonb "modal_blocks"

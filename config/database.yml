@@ -2,12 +2,12 @@
 
 development:
   adapter: postgresql
-  database: db-development
+  database: didask-slack-db-development
 
 test:
   adapter: postgresql
-  database: db-test
+  database: didask-slack-db-test
 
 production:
   adapter: postgresql
-  database: db-production
+  database: didask-slack-db-production
