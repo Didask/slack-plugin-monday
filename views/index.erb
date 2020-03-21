@@ -1,0 +1,28 @@
+<!-- index.erb -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Didask</title>
+    <!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
+    <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
+  </head>
+  <body class='container'>
+    <h1>Monday &#128150; Slack for product management</h1>
+
+    <div>
+      <form method='POST' action='/prepare_monday'>
+        <label for="board_id">What Monday board would you like to integrate for Slack?</label>
+        <br>
+        <select name="board_id">
+          <% for board in @boards %>
+          <option value="<%= board['id'] %>"><%= board['name'] %></option>
+          <% end %>
+        </select>
+
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
+</html>
