@@ -1,18 +1,18 @@
 # save_feedback.rb
 # frozen_string_literal: true
 
-require_relative 'message_feedback_saved'
+require_relative 'thread_response'
 
 def save_feedback(token_slack, token_monday, board_id, payload)
   @token_slack = token_slack
   @token_monday = token_monday
   @board_id = board_id
   @payload = payload
+  @user_id = @payload['user']['id']
 
   Thread.new do
     retrive_modal_data
-    save_on_monday
-    post_thread
+    save_on_monday == 200 ? post_thread : post_error_thread
   end
 
   response.body = ''
@@ -24,10 +24,10 @@ def retrive_modal_data
 end
 
 def save_on_monday
-  HTTP.auth(@token_monday)
-      .headers('content-type' => 'application/json')
-      .post('https://api.monday.com/v2/', json:
-        { "query": "mutation{ create_item (board_id: 485987910, group_id: \"topics\", item_name: \"#{@summary}\"){id}}" })
+  @monday_response = HTTP.auth(@token_monday)
+                         .headers('content-type' => 'application/json')
+                         .post('https://api.monday.com/v2/', json:
+                           { "query": "mutation{ create_item (board_id: 485987910, group_id: \"topics\", item_name: \"#{@summary}\"){id}}" })
 end
 
 def post_thread
@@ -35,5 +35,13 @@ def post_thread
 
   HTTP.auth("Bearer #{@token_slack}")
       .headers('content-type' => 'application/json')
-      .post('https://slack.com/api/chat.postMessage', json: message_feedback_saved(message_data[1],message_data[2]))
+      .post('https://slack.com/api/chat.postMessage', json: thread_feedback_saved(message_data[1],message_data[2], @user_id))
+end
+
+def post_error_thread
+  message_data = @payload['view']['private_metadata'].match(/(.*)\|(.*)/)
+
+  HTTP.auth("Bearer #{@token_slack}")
+      .headers('content-type' => 'application/json')
+      .post('https://slack.com/api/chat.postMessage', json: thread_error(message_data[1], message_data[2], @user_id, @monday_response['status']))
 end

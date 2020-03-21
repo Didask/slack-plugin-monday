@@ -12,6 +12,6 @@ gem 'sinatra-activerecord'
 gem 'pg'
 gem 'tux'
 
-group :development do
-  gem 'shotgum'
+group :development, :test do
+  gem 'rerun'
 end

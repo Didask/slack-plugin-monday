@@ -1,6 +1,6 @@
 # table.rb
 # frozen_string_literal: true
 
-class Table # < ActiveRecord::Base
+class MondayBoard < ActiveRecord::Base
 
 end
