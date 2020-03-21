@@ -11,9 +11,9 @@ Dotenv.load
 
 # Routes
 class App < Sinatra::Base
-  set :views, File.join(APP_ROOT, 'app', 'views')
+  set :views, File.join(__dir__, 'app', 'views')
 
-  post '/share-feedback' do
+  post '/share_feedback' do
     payload = JSON.parse(params[:payload])
 
     if payload['type'] == 'message_action'
@@ -25,6 +25,8 @@ class App < Sinatra::Base
   end
 
   get '/didask' do
+    @didaskbot_features = [{ name: 'share_feedback', type: :action, require: { modal: true } },{ name: 'share_feedback', type: :action, require: { modal: true } }]
+
     @boards = get_boards(ENV['MONDAY_API_TOKEN'])
 
     erb :index

@@ -5,24 +5,53 @@
   <head>
     <meta charset='UTF-8' />
     <title>Didask</title>
-    <!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
-    <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' /> -->
   </head>
-  <body class='container'>
-    <h1>Monday &#128150; Slack for product management</h1>
+  <body class="leading-normal tracking-normal text-gray-700 gradient" style="font-family: 'Source Sans Pro', sans-serif;">
+    <div class="container mx-auto">
+      <h1 class="my-4 text-5xl font-bold leading-tight text-gray-800">Didask Bot for Slack</h1>
 
-    <div>
-      <form method='POST' action='/prepare_monday'>
-        <label for="board_id">What Monday board would you like to integrate for Slack?</label>
-        <br>
-        <select name="board_id">
-          <% for board in @boards %>
-          <option value="<%= board['id'] %>"><%= board['name'] %></option>
+      <div class='' id='didaskbot_actions'>
+        <h2 class="text-lg text-gray-800 font-bold">Available Actions</h2>
+        <div>
+          <% for didaskbot_feature in @didaskbot_features %>
+            <% if didaskbot_feature[:type] == :action %>
+            <div class='flex my-3'>
+              <div id="" class="flex pr-3">
+                <p class="my-auto"><%= didaskbot_feature[:name] %></p>
+              </div>
+              <div class='pl-3'>
+                <form method='POST' action='/prepare_monday'>
+                  <label for="board_id"></label>
+                  <select name="board_id"  class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal">
+                    <% for board in @boards %>
+                    <option value="<%= board['id'] %>"><%= board['name'] %></option>
+                    <% end %>
+                  </select>
+
+                  <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                </form>
+              </div>
+            </div>
+            <% end %>
           <% end %>
-        </select>
-
-        <input type="submit" value="Submit">
-      </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>
+
+<!--
+see all slackbot actions/ commands
+link a command with a board
+  see all board
+  select a board
+see what slackbot actions/ commands requires
+  if modal
+    select columns to show
+    retrive type and options
+    blocks
+
+
+-->
