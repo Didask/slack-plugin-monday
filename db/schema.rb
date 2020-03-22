@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2020_03_21_133824) do
 
   create_table "features", force: :cascade do |t|
     t.string "feature_name"
+    t.string "feature_type"
     t.string "board_id"
     t.jsonb "columns"
     t.jsonb "modal_blocks"

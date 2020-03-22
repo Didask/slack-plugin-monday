@@ -24,20 +24,39 @@ class App < Sinatra::Base
     end
   end
 
-  get '/didask' do
-    @didaskbot_features = [{ name: 'share_feedback', type: :action, require: { modal: true } },{ name: 'share_feedback', type: :action, require: { modal: true } }]
+  get '/config' do
+    @didaskbot_features = Feature.all
 
     @boards = get_boards(ENV['MONDAY_API_TOKEN'])
 
     erb :index
   end
 
-  post '/prepare_monday' do
-    @board_id = params['board_id']
-    redirect "/board/#{@board_id}"
+  post '/new_feature' do
+    new_feature = params['new_feature']
+    Feature.create(
+      feature_name: new_feature['name'],
+      feature_type: new_feature['type']
+    )
+
+    redirect '/config'
   end
 
-  get '/board/:id' do
-    @board_id
+  post '/board_updated' do
+    feature = Feature.find
+
+    feature_info = params['feature'].map { |key, value| "#{key}=#{value}" }.join('&')
+    redirect "/feature_#{params['feature']['name']}?#{feature_info}"
   end
+
+  get '/feature_share_feedback' do
+    @feature = params
+    @columns = get_columns(ENV['MONDAY_API_TOKEN'], @feature['board_id'])
+
+    erb :feature_share_feedback
+  end
+end
+
+def show_params
+  p params
 end

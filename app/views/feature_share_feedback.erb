@@ -1,0 +1,55 @@
+<!-- feature.erb -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Didask</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+
+  <body class="leading-normal tracking-normal text-gray-700 gradient" style="font-family: 'Source Sans Pro', sans-serif;">
+    <div class="container mx-auto">
+      <h1 class="my-4 text-5xl font-bold leading-tight text-gray-800"><%= @feature['name'] %></h1>
+
+      <h2 class="text-lg text-gray-800 font-bold">Columns</h2>
+
+      <div class='mb-32'>
+        <form method='POST' action='/'>
+          <fieldset class="border-gray-200 border-2 p-4">
+
+            <legend>Update blocks</legend>
+            <input type="hidden" name="feature[name]" value="<%= @feature[:name] %>">
+            <div class="my-2 py-2 flex justify-between border-gray-200 border-b-2">
+              <label for="new_items_column" class="font-bold text-lg">New item should go to:</label>
+              <select name="new_items_column"  class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal">
+                <option value="nill">Select a column</option>
+                <% for column in @columns %>
+                <option value="<%= column['id'] %>"><%= column['title'] %></option>
+                <% end %>
+              </select>
+            </div>
+
+            <% for column in @columns %>
+            <div class="flex justify-between">
+              <div class="pr-3">
+                <p class=""><span class="font-bold">Title </span><%= column['title'] %></p>
+                <p class=""><span class="font-bold">Type </span><%= column['type'] %></p>
+              </div>
+              <div>
+                <label for="block"><%= column['name'] %></label>
+                <textarea name="block" id="" cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"></textarea>
+              </div>
+            </div>
+            <% end %>
+
+            <div class="flex justify-end mt-5">
+              <input type="submit" value="Update" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded justify-end">
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+  </body>
+</html>
