@@ -16,11 +16,13 @@ class App < Sinatra::Base
   post '/share_feedback' do
     payload = JSON.parse(params[:payload])
 
+    feature = Feature.find_by(feature_name: 'share_feedback')
+
     if payload['type'] == 'message_action'
       open_modal(ENV['SLACK_API_TOKEN'], payload)
 
     elsif payload['type'] == 'view_submission'
-      save_feedback(ENV['SLACK_API_TOKEN'], ENV['MONDAY_API_TOKEN'], ENV['MONDAY_FEEDBACK_BOARD_ID'], payload)
+      save_feedback(ENV['SLACK_API_TOKEN'], ENV['MONDAY_API_TOKEN'], feature, payload)
     end
   end
 

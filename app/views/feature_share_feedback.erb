@@ -48,6 +48,15 @@
                 </select>
               </div>
 
+              <div class="flex justify-between">
+                <div class="pr-3">
+                  <p class=""><span class="font-bold">Extra</span></p>
+                </div>
+                <div>
+                  <textarea name="feature[blocks][extra][modal_block]"  cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"><%= @feature.blocks['extra']['modal_block'] %></textarea>
+                </div>
+              </div>
+
               <% for column in @columns %>
               <div class="flex justify-between">
                 <div class="pr-3">
