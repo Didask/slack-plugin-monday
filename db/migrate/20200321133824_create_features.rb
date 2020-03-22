@@ -4,8 +4,8 @@ class CreateFeatures < ActiveRecord::Migration[6.0]
       t.string :feature_name
       t.string :feature_type
       t.string :board_id
-      t.jsonb :columns
-      t.jsonb :modal_blocks
+      t.string :new_items_group
+      t.jsonb :blocks
       t.timestamps null: false
     end
   end

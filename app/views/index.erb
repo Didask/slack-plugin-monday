@@ -34,16 +34,17 @@
                 <p class="my-auto"><%= didaskbot_feature.feature_name %></p>
               </div>
               <div class='pl-3'>
-                <form method='POST' action='/board_updated'>
-                  <input type="hidden" name="feature[name]" value="<%= didaskbot_feature.feature_name %>">
+                <a href='<%= "/feature_#{didaskbot_feature.feature_name}?#feature_name=#{didaskbot_feature.feature_name}" %>' class="hover:underline text-blue-500">Edit</a>
+                <!-- <form method='POST' action='/board_updated'>
+                  <input type="hidden" name="feature[name]" value="<%#= didaskbot_feature.feature_name %>">
                   <select name="feature[board_id]" class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal">
                     <option value="" disabled selected>Select a board</option>
-                    <% for board in @boards %>
-                    <option value="<%= board['id'] %>"><%= board['name'] %></option>
-                    <% end %>
+                    <%# for board in @boards %>
+                    <option value="<%#= board['id'] %>"><%#= board['name'] %></option>
+                    <%# end %>
                   </select>
                   <input type="submit" value="Select" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                </form>
+                </form> -->
               </div>
             </div>
             <% end %>

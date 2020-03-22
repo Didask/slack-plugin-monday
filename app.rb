@@ -27,8 +27,6 @@ class App < Sinatra::Base
   get '/config' do
     @didaskbot_features = Feature.all
 
-    @boards = get_boards(ENV['MONDAY_API_TOKEN'])
-
     erb :index
   end
 
@@ -42,21 +40,27 @@ class App < Sinatra::Base
     redirect '/config'
   end
 
-  post '/board_updated' do
-    feature = Feature.find
+  put '/update_feature' do
+    @feature = Feature.find_by(feature_name: params['feature']['feature_name'])
+    @feature.update(params['feature'])
 
-    feature_info = params['feature'].map { |key, value| "#{key}=#{value}" }.join('&')
-    redirect "/feature_#{params['feature']['name']}?#{feature_info}"
+    redirect "/feature_#{@feature.feature_name}?#feature_name=#{@feature.feature_name}"
   end
 
   get '/feature_share_feedback' do
-    @feature = params
-    @columns = get_columns(ENV['MONDAY_API_TOKEN'], @feature['board_id'])
+    @feature = Feature.find_by(feature_name: 'share_feedback')
+    @boards = get_boards(ENV['MONDAY_API_TOKEN'])
+
+    if !@feature.board_id.nil?
+      @columns = get_columns(ENV['MONDAY_API_TOKEN'], @feature.board_id)
+      @groups = get_groups(ENV['MONDAY_API_TOKEN'], @feature.board_id)
+      # @board_name = get_boards_name(ENV['MONDAY_API_TOKEN'], @feature.board_id)
+    else
+      @columns = nil
+      @groups = nil
+      # @board_name = nil
+    end
 
     erb :feature_share_feedback
   end
-end
-
-def show_params
-  p params
 end
