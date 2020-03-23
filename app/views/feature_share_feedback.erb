@@ -50,10 +50,19 @@
 
               <div class="flex justify-between">
                 <div class="pr-3">
-                  <p class=""><span class="font-bold">Extra</span></p>
+                  <p class=""><span class="font-bold">Summary</span></p>
                 </div>
                 <div>
-                  <textarea name="feature[blocks][extra][modal_block]"  cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"><%= @feature.blocks['extra']['modal_block'] %></textarea>
+                  <textarea name="feature[blocks][item_name][modal_block]"  cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"><%= @feature.blocks['item_name']['modal_block'] if !@feature.blocks.nil? %></textarea>
+                </div>
+              </div>
+
+              <div class="flex justify-between">
+                <div class="pr-3">
+                  <p class=""><span class="font-bold">Details</span></p>
+                </div>
+                <div>
+                  <textarea name="feature[blocks][message_details][modal_block]"  cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"><%= @feature.blocks['message_details']['modal_block'] if !@feature.blocks.nil? %></textarea>
                 </div>
               </div>
 
@@ -65,7 +74,7 @@
                   <p class=""><span class="font-bold">Type </span><%= column['type'] %></p>
                 </div>
                 <div>
-                  <textarea name="feature[blocks][<%= column['id'] %>][modal_block]"  cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"><%= @feature.blocks[column['id']]['modal_block'] %></textarea>
+                  <textarea name="feature[blocks][<%= column['id'] %>][modal_block]"  cols="50" rows="10" class="g-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 appearance-none leading-normal"><%= @feature.blocks[column['id']]['modal_block'] if !@feature.blocks.nil? %></textarea>
                 </div>
               </div>
               <% end %>

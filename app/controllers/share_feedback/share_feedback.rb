@@ -8,28 +8,26 @@ def open_modal(token_slack, payload)
   message_ts = payload['message_ts']
   message_initial_value = payload['message']['text']
 
-  view_data = modal_feedback(channel_id, message_ts, prep_blocks)
+  view_data = modal_feedback(channel_id, message_ts, prep_blocks(message_initial_value))
+
+  # puts JSON.pretty_generate(view_data)
 
   res = HTTP.auth("Bearer #{token_slack}")
       .headers('content-type' => 'application/json')
       .post('https://slack.com/api/views.open', json:
         { "trigger_id": payload['trigger_id'].to_s,
           "view": view_data })
-
-      puts JSON.pretty_generate(JSON.parse(res.body))
 end
 
-def prep_blocks
+def prep_blocks(message_initial_value)
   feature = Feature.find_by(feature_name: 'share_feedback')
+
   blocks = []
   feature.blocks.each { |_column, column_info|
-    # puts column_info['modal_block']
-    blocks << column_info['modal_block'] unless column_info['modal_block'] == "" }
+    block_content = column_info['modal_block'].tr("\n", '').tr("\r", '').split.join(' ')
+    block_content.gsub!('##message_initial_value##', message_initial_value)
+    blocks.unshift JSON.parse(block_content) unless block_content == ''
+  }
 
-  puts blocks
-
-  # FINISH BLOCK ASSEMBLY
-  # PREP_BLOCKS VARIABLE
-
-  # if blocks.include [[]]
+  blocks
 end

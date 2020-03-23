@@ -1,5 +1,7 @@
 # modal_feedback.rb
 
+require 'json'
+
 def modal_feedback(channel_id, message_ts, blocks)
   {
     'type': 'modal',
