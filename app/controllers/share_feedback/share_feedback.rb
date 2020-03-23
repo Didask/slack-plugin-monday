@@ -10,8 +10,6 @@ def open_modal(token_slack, payload)
 
   view_data = modal_feedback(channel_id, message_ts, prep_blocks(message_initial_value))
 
-  # puts JSON.pretty_generate(view_data)
-
   res = HTTP.auth("Bearer #{token_slack}")
       .headers('content-type' => 'application/json')
       .post('https://slack.com/api/views.open', json:

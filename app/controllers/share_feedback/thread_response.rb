@@ -33,7 +33,7 @@ def thread_feedback_saved(channel_id, message_ts, user_id)
               'text': 'Go to all feedbacks  :speech_balloon:',
               'emoji': true
             },
-            'value': 'click_me_123'
+            'url': 'https://view.monday.com/497735152-0318577eb437200a372eb69aabf07ebb'
           }
         ]
       }
