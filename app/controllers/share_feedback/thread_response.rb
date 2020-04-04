@@ -17,7 +17,7 @@ def thread_feedback_saved(channel_id, message_ts, user_id, feedback)
         'type': 'section',
         'text': {
           'type': 'mrkdwn',
-          'text': "*#{feedback[:summary]}*\n#{feedback[:details]}\n>This is a feedback from *#{feedback[:feedback_from]}* #{'-*' + feedback[:client_name] + '*' unless feedback[:client_name].nil?}\n\n>Importance: *#{feedback[:importance]}*\n>Created by <@#{user_id}>"
+          'text': "*#{feedback[:summary]}*\n#{feedback[:details]}\n\n>This is a feedback from *#{feedback[:feedback_from]}* #{'-*' + feedback[:client_name] + '*' unless feedback[:client_name].nil?}\n>Importance: *#{feedback[:importance]}*\n>Created by <@#{user_id}>"
         }
       },
       {
