@@ -3,45 +3,51 @@
 
 require_relative 'thread_response'
 
-def save_feedback(token_slack, token_monday, feature, payload)
+def save_feedback(token_slack, token_monday, share_feedback, payload)
   @token_slack = token_slack
   @token_monday = token_monday
-  @payload = payload
-  @user_id = @payload['user']['id']
+  @share_feedback = share_feedback
+  @payload = payload['view']['state']
+  @user_id = payload['user']['id']
 
   Thread.new do
-    retrive_modal_data(feature)
-    save_on_monday(feature).status == 200 ? post_thread : post_error_thread
+    retrive_modal_data
+    save_on_monday.status == 200 ? post_thread : post_error_thread
   end
 
   response.body = ''
   response
 end
 
-def retrive_modal_data(feature)
-  @summary = @payload['view']['state']['values']['summary']['input']['value']
-
-  puts JSON.pretty_generate(@payload['view'])
-
-  @feedback_from = @payload['view']['state']['values']['dropdown']['input']['value']
-  @importance = @payload['view']['state']['values']['status7']['input']['value']
+def retrive_modal_data
+  @summary = @payload['values']['summary']['input']['value']
+  @details = @payload['values']['details']['input']['value']
+  @feedback_from = @payload['values']['feedback_from']['input']['selected_option']['value']
+  @importance = @payload['values']['importance']['input']['selected_option']['value']
+  @client_name = @payload['values']['client_name']['input']['value']
 
   # MAKE RETRIEVE BASED ON CONFIG
   # SAVE COLUMNS ON MONDAY
 end
 
-def save_on_monday(feature)
+def save_on_monday
+  column_values = JSON.generate(
+    dropdown: { labels: [@feedback_from] },
+    status7: { label: @importance },
+    text: @client_name
+  )
+
   HTTP.auth(@token_monday)
       .headers('content-type' => 'application/json')
       .post('https://api.monday.com/v2/', json:
-        { "query": "mutation{ create_item (
-          board_id: #{feature.board_id},
-          group_id: #{feature.new_items_group},
-          item_name: \"#{@summary}\",
-          columns_values: {
-            dropdown: \"#{@feedback_from}\",
-            status7: \"#{@importance}\"
-          }){id}}" })
+        { "query": "mutation($columns: JSON!)\
+          { create_item (
+            board_id: #{@share_feedback.board_id},
+            group_id: #{@share_feedback.new_items_group},
+            item_name: \"#{@summary}\",
+            column_values: $columns
+            ){name id column_values {id value}}}",
+          "variables": { "columns": column_values } })
 end
 
 def post_thread
