@@ -11,9 +11,3 @@ class Feature
     end
   end
 end
-
-    # name, board_id, new_items_group, columns
-    # @name = name
-    # @board_id = board_id
-    # @new_items_group = new_items_group
-    # @columns = columns

@@ -15,7 +15,6 @@ class App < Sinatra::Base
 
   post '/share_feedback' do
     payload = JSON.parse(params[:payload])
-      puts JSON.pretty_generate(payload)
 
     share_feedback = Feature.new(
       name: 'share_feedback',
@@ -24,8 +23,6 @@ class App < Sinatra::Base
         ENV['MONDAY_API_TOKEN'],
         ENV['MONDAY_FEEDBACK_BOARD_ID']
       )
-      # ,
-      # columns: %w[dropdown status7]
     )
 
     case payload['type']

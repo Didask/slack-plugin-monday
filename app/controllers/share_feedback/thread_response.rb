@@ -1,7 +1,7 @@
 # message_feedback_saved.rb
 # frozen_string_literal: true
 
-def thread_feedback_saved(channel_id, message_ts, user_id)
+def thread_feedback_saved(channel_id, message_ts, user_id, feedback)
   {
     'channel': channel_id,
     'thread_ts': message_ts,
@@ -17,7 +17,7 @@ def thread_feedback_saved(channel_id, message_ts, user_id)
         'type': 'section',
         'text': {
           'type': 'mrkdwn',
-          'text': ">*Summary*\n>Description\n>--------------\n>This is a feedback from :fox_face: *Client*\n>Importance: :space_invader: *Information*\n>Created by <@#{user_id}>"
+          'text': ">*Summary*\n>Description\n>--------------\n>This is a feedback from *#{feedback[:feedback_from]}* #{'-' + feedback[:client_name] unless feedback[:client_name].nil?}*\n>Importance: *#{feedback[:importance]}*\n>Created by <@#{user_id}>"
         }
       },
       {

@@ -4,7 +4,7 @@ def modal_feedback(channel_id, message_ts, message_initial_value)
   {
     'type': 'modal',
     'callback_id': 'modal-identifier',
-    'private_metadata': '#{channel_id}|#{message_ts}',
+    'private_metadata': "#{channel_id}|#{message_ts}",
     'title': {
       'type': 'plain_text',
       'text': 'Share a feedback'
